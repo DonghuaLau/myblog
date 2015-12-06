@@ -1,0 +1,36 @@
+
+#main-carousel .carousel-inner .item {
+	max-height:400px;
+	//max-width:600px;
+}
+#main-carousel .carousel-inner .item img{
+	width:100%;
+}
+.category-1 .thumbnail{
+	width:200px;
+	height:200px;
+	position:relative;
+	float:left;
+	margin-left:10px;
+}
+.page-main{
+	width:100%;
+	height:100%;
+	margin-top:50px;
+}
+.page-main-item{
+	//position:relative;
+	//float:left;
+	//margin:0 0 0 0;
+}
+.page-left{
+	width:10%;
+}
+.page-middle{
+}
+.page-right{
+	width:20%;
+}
+#nav-search-id{
+	height:34px;
+}
