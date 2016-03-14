@@ -4,7 +4,7 @@ jQuery(document).ready( function($) {
 		var slider = $.fn.fsvs({
 			speed : 1000,
 			nthClasses : 4,
-			pagination : true,
+			pagination : false,
 			mouseDragEvents : true
 		});
 	}

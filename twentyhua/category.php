@@ -11,21 +11,29 @@
 
 get_header(); ?>
 
+<div class="container">
+<div class="padding-top40"></div>
+<div class="row">
+
+<div class="col-md-9">
 	<div id="primary" class="content-area">
 		<div id="content" class="site-content" role="main">
 
 		<?php if ( have_posts() ) : ?>
 			<header class="archive-header">
-				<h1 class="archive-title"><?php printf( __( 'Category Archives: %s', 'twentythirteen' ), single_cat_title( '', false ) ); ?></h1>
+				<h1 class="archive-title"><?php printf( __( '文章分类 > %s', 'twentythirteen' ), single_cat_title( '', false ) ); ?></h1>
 
-				<?php if ( category_description() ) : // Show an optional category description ?>
-				<div class="archive-meta"><?php echo category_description(); ?></div>
-				<?php endif; ?>
+				<?php 
+					//if ( category_description() ) : // Show an optional category description 
+					if (0) :
+						echo category_description(); 
+					endif; 
+				?>
 			</header><!-- .archive-header -->
 
 			<?php /* The loop */ ?>
 			<?php while ( have_posts() ) : the_post(); ?>
-				<?php get_template_part( 'content', get_post_format() ); ?>
+				<?php get_template_part( 'content-summary', get_post_format() ); ?>
 			<?php endwhile; ?>
 
 			<?php twentythirteen_paging_nav(); ?>
@@ -36,6 +44,36 @@ get_header(); ?>
 
 		</div><!-- #content -->
 	</div><!-- #primary -->
+</div><!-- col-md-8 -->
+
+<div class="col-md-2">
+	<div class="padding-top40"></div>
+	<div class="panel">
+	  <div class="panel-heading">
+	    <h3 class="panel-title"><?php echo __("文章分类", "hua"); ?></h3>
+	  </div>
+	  <div class="panel-body">
+		<?php
+			$categories = get_categories();
+			foreach($categories as $cat){
+		  		//echo "<li><a href=\"".get_category_link($cat->cat_ID)."\">".$cat->cat_name."</a></li>";
+		        echo "<li><a href=\"".get_category_link($cat->cat_ID)."\">".$cat->cat_name."<span class=\"badge\">".$cat->category_count."</span></a></li>";
+			}
+		?>
+		</ul>
+	  </div>
+	</div>
+</div><!-- col-md-2 -->
+
+</div><!-- row -->
+
+<div class="row">
+<div class="col-md-8">
+<div class="padding-top40"></div>
+</div><!-- col-md-8 -->
+</div><!-- row -->
+
+</div><!-- container -->
 
 <?php get_sidebar(); ?>
 <?php get_footer(); ?>

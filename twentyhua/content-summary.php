@@ -11,7 +11,8 @@
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<header class="entry-header">
+	<hr/>
+	<header class="summary-header">
 		<?php if ( has_post_thumbnail() && ! post_password_required() && ! is_attachment() ) : ?>
 		<div class="entry-thumbnail">
 			<?php the_post_thumbnail(); ?>
@@ -32,30 +33,11 @@
 		</div><!-- .entry-meta -->
 	</header><!-- .entry-header -->
 
-	<?php if ( is_search() or is_home()) : // Only display Excerpts for Search ?>
 	<div class="entry-summary">
-		<?php //the_excerpt(); ?>
+		<?php the_excerpt(); ?>
 	</div><!-- .entry-summary -->
-	<?php else : ?>
-	<div class="entry-content">
-		<?php
-			/* translators: %s: Name of current post */
-			the_content( sprintf(
-				__( 'Continue reading %s <span class="meta-nav">&rarr;</span>', 'twentythirteen' ),
-				the_title( '<span class="screen-reader-text">', '</span>', false )
-			) );
 
-			wp_link_pages( array( 'before' => '<div class="page-links"><span class="page-links-title">' . __( 'Pages:', 'twentythirteen' ) . '</span>', 'after' => '</div>', 'link_before' => '<span>', 'link_after' => '</span>' ) );
-		?>
-	</div><!-- .entry-content -->
-
-	<br/>
-	<br/>
-	<div width="100%" align="center" align="center">
-    <div name="dashmain" id="dash-main-id-878698" class="dash-main-3 878698-9.9"></div><script type="text/javascript" charset="utf-8" src="http://www.dashangcloud.com/static/ds.js"></script>
-    </div>
 	
-	<?php endif; ?>
 
 	<footer class="entry-meta">
 		<?php if ( comments_open() && ! is_single() && 0 ) : ?>

@@ -4,7 +4,8 @@ $idx = "index";
 //$idx = "screenslider";
 
 if($idx == "index"){
-	include("index_orig.php");
+	///include("index_orig.php");
+	get_template_part('templates/page', "morn");
 }else if($idx == "screenslider"){
 	include("templates/page-screenslider.php");
 }else if($idx == "10"){

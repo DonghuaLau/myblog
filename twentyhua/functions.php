@@ -23,6 +23,9 @@
  * @since Twenty Hua 1.0
  */
 
+require_once('config.php');
+require_once('hua_route_page.php');
+
 define( 'TWENTY_HUA_VERSION', '1.0.0' );
 
 /*
@@ -74,7 +77,7 @@ function twentythirteen_setup() {
 	 * This theme styles the visual editor to resemble the theme style,
 	 * specifically font, colors, icons, and column width.
 	 */
-	add_editor_style( array( 'css/editor-style.css', 'genericons/genericons.css', twentythirteen_fonts_url() ) );
+	//add_editor_style( array( 'css/editor-style.css', 'genericons/genericons.css', twentythirteen_fonts_url() ) );
 
 	// Adds RSS feed links to <head> for posts and comments.
 	add_theme_support( 'automatic-feed-links' );
@@ -149,7 +152,7 @@ function twentythirteen_fonts_url() {
 			'family' => urlencode( implode( '|', $font_families ) ),
 			'subset' => urlencode( 'latin,latin-ext' ),
 		);
-		$fonts_url = add_query_arg( $query_args, '//fonts.googleapis.com/css' );
+		//$fonts_url = add_query_arg( $query_args, '//fonts.googleapis.com/css' );
 	}
 
 	return $fonts_url;
@@ -179,10 +182,10 @@ function twentythirteen_scripts_styles() {
 	wp_enqueue_style( 'twentythirteen-fonts', twentythirteen_fonts_url(), array(), null );
 
 	// Add Genericons font, used in the main stylesheet.
-	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '3.03' );
+	//wp_enqueue_style( 'genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '3.03' );
 
 	// Loads our main stylesheet.
-	wp_enqueue_style( 'twentythirteen-style', get_stylesheet_uri(), array(), '2015-10-25' );
+	wp_enqueue_style( 'twentythirteen-style', get_stylesheet_uri(), array(), '2016-03-23' );
 
 	// Loads the Internet Explorer specific stylesheet.
 	wp_enqueue_style( 'twentythirteen-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentythirteen-style' ), '2013-07-18' );
@@ -205,13 +208,13 @@ function custom_routing_init() {
     custom_routing_register_rewrites();
 
     global $wp;
-    $wp->add_query_var( 'custom_route' );
+    $wp->add_query_var( 'hua_route' );
 }
 add_action( 'init', 'custom_routing_init' );
 
 function custom_routing_register_rewrites() {
-    add_rewrite_rule( '^' . custom_routing_url_prefix() . '/?$','index.php?custom_route=/','top' );
-    add_rewrite_rule( '^' . custom_routing_url_prefix() . '(.*)?','index.php?custom_route=$matches[1]','top' );
+    add_rewrite_rule( '^' . get_custom_routing_url_prefix() . '/?$','index.php?hua_route=/','top' );
+    add_rewrite_rule( '^' . get_custom_routing_url_prefix() . '(.*)?','index.php?hua_route=$matches[1]','top' );
 }
 
 /**
@@ -219,8 +222,8 @@ function custom_routing_register_rewrites() {
  *
  * @return string Prefix.
  */
-function custom_routing_url_prefix() {
-    return apply_filters( 'custom_routing_url_prefix', 'someprefix' );
+function get_custom_routing_url_prefix() {
+    return apply_filters( 'custom_routing_url_prefix', 'front' );
 }
 
 function custom_routing_maybe_flush_rewrites() {
@@ -235,17 +238,28 @@ function custom_routing_maybe_flush_rewrites() {
 add_action( 'init', 'custom_routing_maybe_flush_rewrites', 999 );
 
 function custom_routing_loaded() {
-	if ( empty( $GLOBALS['wp']->query_vars['custom_route'] ) )
+
+	if ( !empty( $GLOBALS['wp']->query_vars['hua_route'] ) ){
+		$route = strtolower($GLOBALS['wp']->query_vars['hua_route']);
+        hua_routing_load($route);
+        die();
+	}
+
+	return;
+
+	if ( empty( $GLOBALS['wp']->query_vars['hua_route'] ) )
         return;
 
-    $args = explode('/', $GLOBALS['wp']->query_vars['custom_route']);
-    //var_dump($args);
+    $args = explode('/', $GLOBALS['wp']->query_vars['hua_route']);
+    var_dump($args);
 	$argc = count($args);
     if($argc <= 1 ){
 		echo "home page of tools";
 	}else if($args[1] == 'editor'){
 		echo "online editor";
 		get_template_part("templates/tools", "editor");
+	}else if($args[1] == 'home10'){
+		get_template_part("templates/page", "home10");
 	}else{
 		echo "home page of tools";
 	}
@@ -330,16 +344,17 @@ function twentythirteen_paging_nav() {
 	if ( $wp_query->max_num_pages < 2 )
 		return;
 	?>
+	<div class="padding-top40"></div>
 	<nav class="navigation paging-navigation" role="navigation">
-		<h1 class="screen-reader-text"><?php _e( 'Posts navigation', 'twentythirteen' ); ?></h1>
+		<!--<h1 class="screen-reader-text"><?php _e( '文章导航', 'twentythirteen' ); ?></h1>-->
 		<div class="nav-links nav-xyz">
 
 			<?php if ( get_next_posts_link() ) : ?>
-			<div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'twentythirteen' ) ); ?></div>
+			<div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> 以前的文章', 'twentythirteen' ) ); ?></div>
 			<?php endif; ?>
 
 			<?php if ( get_previous_posts_link() ) : ?>
-			<div class="nav-next"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'twentythirteen' ) ); ?></div>
+			<div class="nav-next"><?php previous_posts_link( __( '最新文章 <span class="meta-nav">&rarr;</span>', 'twentythirteen' ) ); ?></div>
 			<?php endif; ?>
 
 		</div><!-- .nav-links -->
@@ -364,12 +379,13 @@ function twentythirteen_post_nav() {
 	if ( ! $next && ! $previous )
 		return;
 	?>
+	<div class="padding-top40"></div>
 	<nav class="navigation post-navigation" role="navigation">
-		<h1 class="screen-reader-text"><?php _e( 'Post navigation', 'twentythirteen' ); ?></h1>
+		<!--<h1 class="screen-reader-text"><?php _e( 'Post navigation', 'twentythirteen' ); ?></h1>-->
 		<div class="nav-links">
-
-			<?php previous_post_link( '%link', _x( '<span class="meta-nav">&larr;</span> %title', 'Previous post link', 'twentythirteen' ) ); ?>
-			<?php next_post_link( '%link', _x( '%title <span class="meta-nav">&rarr;</span>', 'Next post link', 'twentythirteen' ) ); ?>
+			<span><?php echo __("上一篇","hua");?>:&nbsp;</span><?php previous_post_link( '%link', _x( '%title', 'Previous post link', 'twentythirteen' ) ); ?>
+			<br>
+			<span><?php echo __("下一篇","hua");?>:&nbsp;</span><?php next_post_link( '%link', _x( '%title', 'Next post link', 'twentythirteen' ) ); ?>
 
 		</div><!-- .nav-links -->
 	</nav><!-- .navigation -->
@@ -621,3 +637,73 @@ add_action( 'customize_preview_init', 'twentythirteen_customize_preview_js' );
 
 // Hide the admin bar
 add_filter('show_admin_bar', '__return_false');
+
+function get_active_nav()
+{
+	$uri = $_SERVER['REQUEST_URI'];
+	$page = 'home';
+	$active_html = ' class="active"';
+	if(strrpos($uri, "category", 1) === 1){
+		$active_html = ' active';
+		$page = 'category';
+	}else if(strrpos($uri, "tools", 1) === 1){
+		$active_html = ' active';
+		$page = 'tools';
+	}else if(strrpos($uri, "about", 1) === 1){
+		$active_html = ' class="active"';
+		$page = 'about';
+	}
+
+	$nav_active = array(
+		 'home' => ''
+		,'category' => ''
+		,'tools' => ''
+		,'about' => ''
+	);
+	$nav_active[$page] = $active_html;
+
+	return $nav_active;
+}
+
+/*
+ *  My route definition
+ */
+global $g_hua_routing;
+$g_hua_routing = array(
+             //array(need login?, '/router/uri', 'router_handler')
+             array(0, '/home10', 'hua_page_home10')
+            ,array(0, '/home11', 'hua_page_home11')
+            ,array(0, '/calendar', 'hua_page_calendar')
+	);
+
+function hua_routing_load($route)
+{
+	global $g_hua_routing;
+    foreach($g_hua_routing as $routing){
+        if($routing[1] == $route){
+        	$routing[2]();
+        }
+    }
+
+}
+
+function get_popular_posts($num) {
+    global $wpdb;
+    
+    $posts = $wpdb->get_results("SELECT comment_count, ID, post_title FROM $wpdb->posts where post_type = 'post' ORDER BY comment_count DESC LIMIT 0 , $num");
+    
+    foreach ($posts as $post) {
+        setup_postdata($post);
+        $id = $post->ID;
+        $title = $post->post_title;
+        $count = $post->comment_count;
+        
+        //if ($count != 0) {
+        if (1) {
+            $popular .= '<li>';
+            $popular .= '<a href="' . get_permalink($id) . '" title="' . $title . '">' . $title . '</a> ';
+            $popular .= '</li>';
+        }
+    }
+    return $popular;
+}

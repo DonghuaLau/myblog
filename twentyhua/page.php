@@ -13,6 +13,11 @@
 
 get_header(); ?>
 
+<div class="container">
+<div class="padding-top40"></div>
+<div class="row">
+
+<div class="col-md-10">
 	<div id="primary" class="content-area">
 		<div id="content" class="site-content" role="main">
 
@@ -35,22 +40,12 @@ get_header(); ?>
 						<?php wp_link_pages( array( 'before' => '<div class="page-links"><span class="page-links-title">' . __( 'Pages:', 'twentythirteen' ) . '</span>', 'after' => '</div>', 'link_before' => '<span>', 'link_after' => '</span>' ) ); ?>
 					</div><!-- .entry-content page-->
 
-	<br/>
-	<br/>
-	<div width="100%" height="64px" align="center">
-    <div name="dashmain" id="dash-main-id-878698" class="dash-main-2 878698-9.9"></div><script type="text/javascript" charset="utf-8" src="http://www.dashangcloud.com/static/ds.js"></script>
-    </div>
-
-					<footer class="entry-meta">
-						<?php edit_post_link( __( 'Edit', 'twentythirteen' ), '<span class="edit-link">', '</span>' ); ?>
-					</footer><!-- .entry-meta -->
-				</article><!-- #post -->
-
-				<?php comments_template(); ?>
 			<?php endwhile; ?>
 
 		</div><!-- #content -->
 	</div><!-- #primary -->
+</div><!-- col-md-8 -->
+</div><!-- row -->
+</div><!-- container -->
 
-<?php get_sidebar(); ?>
 <?php get_footer(); ?>

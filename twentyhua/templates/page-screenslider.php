@@ -24,8 +24,14 @@
 	<script type='text/javascript' src='<?php echo get_template_directory_uri() . '/screenslider/js/jquery.swipe-events.js'; ?>'></script>
 	<script type='text/javascript' src='<?php echo get_template_directory_uri() . '/screenslider/js/prismjs.js'; ?>'></script>
 	<script type='text/javascript' src='<?php echo get_template_directory_uri() . '/screenslider/js/fsvs.js'; ?>'></script>
-	<script type='text/javascript' src='<?php echo get_template_directory_uri() . '/screenslider/js/main.js'; ?>'></script>
+	<script type='text/javascript' src='<?php echo get_template_directory_uri() . '/screenslider/js/main.js?v=01'; ?>'></script>
 </head>
+
+<style>
+#fsvs-pagination{
+	//display:none;
+}
+</style>
 
 
     <body>
@@ -69,7 +75,7 @@ $(document).ready( function() {
         mouseDragEvents : true,
         touchEvents : true,
         arrowKeyEvents : true,
-        pagination : true,
+        pagination : false,
         nthClasses : false,
         detectHash : true
     });
@@ -87,7 +93,7 @@ $(document).ready( function() {
             // reset the nth classes if you need it
             slider.nthClasses(3);
             // rebind pagination if you need it
-            slider.addPagination();
+            //slider.addPagination();
         }
         ...
     });
