@@ -28,6 +28,12 @@ require_once('hua_route_page.php');
 
 define( 'TWENTY_HUA_VERSION', '1.0.0' );
 
+global $g_hua;
+$g_hua = array(
+			 'title' => false // string
+			,'func_static_files' => false // function
+		);
+
 /*
  * Set up the content width value based on the theme's design.
  *
@@ -68,10 +74,10 @@ function twentythirteen_setup() {
 	 *
 	 * Translations can be added to the /languages/ directory.
 	 * If you're building a theme based on Twenty Thirteen, use a find and
-	 * replace to change 'twentythirteen' to the name of your theme in all
+	 * replace to change 'twentyhua' to the name of your theme in all
 	 * template files.
 	 */
-	load_theme_textdomain( 'twentythirteen', get_template_directory() . '/languages' );
+	load_theme_textdomain( 'twentyhua', get_template_directory() . '/languages' );
 
 	/*
 	 * This theme styles the visual editor to resemble the theme style,
@@ -99,7 +105,7 @@ function twentythirteen_setup() {
 	) );
 
 	// This theme uses wp_nav_menu() in one location.
-	register_nav_menu( 'primary', __( 'Navigation Menu', 'twentythirteen' ) );
+	register_nav_menu( 'primary', __( 'Navigation Menu', 'twentyhua' ) );
 
 	/*
 	 * This theme uses a custom image size for featured images, displayed on
@@ -130,13 +136,13 @@ function twentythirteen_fonts_url() {
 	 * supported by Source Sans Pro, translate this to 'off'. Do not translate
 	 * into your own language.
 	 */
-	$source_sans_pro = _x( 'on', 'Source Sans Pro font: on or off', 'twentythirteen' );
+	$source_sans_pro = _x( 'on', 'Source Sans Pro font: on or off', 'twentyhua' );
 
 	/* Translators: If there are characters in your language that are not
 	 * supported by Bitter, translate this to 'off'. Do not translate into your
 	 * own language.
 	 */
-	$bitter = _x( 'on', 'Bitter font: on or off', 'twentythirteen' );
+	$bitter = _x( 'on', 'Bitter font: on or off', 'twentyhua' );
 
 	//if ( 'off' !== $source_sans_pro || 'off' !== $bitter ) {
 	if (false){
@@ -163,7 +169,7 @@ function twentythirteen_fonts_url() {
  *
  * @since Twenty Thirteen 1.0
  */
-function twentythirteen_scripts_styles() {
+function twentyhua_scripts_styles() {
 	/*
 	 * Adds JavaScript to pages with the comment form to support
 	 * sites with threaded comments (when in use).
@@ -175,29 +181,56 @@ function twentythirteen_scripts_styles() {
 	if ( is_active_sidebar( 'sidebar-1' ) )
 		wp_enqueue_script( 'jquery-masonry' );
 
+
 	// Loads JavaScript file with functionality specific to Twenty Thirteen.
-	wp_enqueue_script( 'twentythirteen-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '20150330', true );
+	wp_enqueue_script( 'twentyhua-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '20160302', true );
 
 	// Add Source Sans Pro and Bitter fonts, used in the main stylesheet.
-	wp_enqueue_style( 'twentythirteen-fonts', twentythirteen_fonts_url(), array(), null );
+	wp_enqueue_style( 'twentyhua-fonts', twentythirteen_fonts_url(), array(), null );
 
 	// Add Genericons font, used in the main stylesheet.
 	//wp_enqueue_style( 'genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '3.03' );
 
 	// Loads our main stylesheet.
-	wp_enqueue_style( 'twentythirteen-style', get_stylesheet_uri(), array(), '2016-03-23' );
+	wp_enqueue_style( 'twentyhua-style', get_stylesheet_uri(), array(), '2016-03-24' );
 
 	// Loads the Internet Explorer specific stylesheet.
-	wp_enqueue_style( 'twentythirteen-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentythirteen-style' ), '2013-07-18' );
-	wp_style_add_data( 'twentythirteen-ie', 'conditional', 'lt IE 9' );
+	wp_enqueue_style( 'twentyhua-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentyhua-style' ), '2016-03-18' );
+	wp_style_add_data( 'twentyhua-ie', 'conditional', 'lt IE 9' );
 
 	/* added by Donghua */
 	// bootstrap
-	wp_enqueue_script( 'twentyhua-script', get_template_directory_uri() . '/js/bootstrap.min.js', array( 'jquery' ), '20150701', true );
-	wp_enqueue_style( 'twentyhua-style', get_template_directory_uri() . '/css/bootstrap.min.css', array(), '20150701' );
-	wp_enqueue_style( 'twentyhua-style', get_template_directory_uri() . '/css/bootstrap-theme.min.css', array(), '20150701' );
+	wp_enqueue_script( 'twentythirteen-script', get_template_directory_uri() . '/js/bootstrap.min.js', array( 'jquery' ), '20160301', true );
+	wp_enqueue_style( 'twentythirteen-style', get_template_directory_uri() . '/css/bootstrap.min.css', array(), '20160301' );
+	wp_enqueue_style( 'twentythirteen-style', get_template_directory_uri() . '/css/bootstrap-theme.min.css', array(), '20160301' );
+
+	global $g_hua;
+	if($g_hua['func_static_files'] != false){
+		$g_hua['func_static_files']();
+		//echo "func_static_files<br>";
+	}
 }
-add_action( 'wp_enqueue_scripts', 'twentythirteen_scripts_styles' );
+add_action( 'wp_enqueue_scripts', 'twentyhua_scripts_styles' );
+function myshortcode($atts) {
+  // Enqueue jquery script and plugin's script
+  //wp_enqueue_script("jquery");
+  wp_enqueue_script('twentyhua');
+}
+/*
+function twentyhua_add_my_scripts()
+{
+	var_dump(wp_print_styles());
+	wp_enqueue_style( 'twentyhua-style', get_template_directory_uri() . '/components/html5-mplayer/css/style.css', array(), '20160316' );
+	wp_enqueue_style( 'twentyhua-style', get_template_directory_uri() . '/components/html5-mplayer/css/APlayer.min.css', array(), '20160316' );
+	return;
+	global $g_hua;
+	if($g_hua['func_static_files'] != false){
+		$g_hua['func_static_files']();
+		echo "func_static_files<br>";
+	}
+}
+add_action( 'wp_head', 'twentyhua_add_my_scripts' );
+*/
 
 /**
  *
@@ -246,26 +279,6 @@ function custom_routing_loaded() {
 	}
 
 	return;
-
-	if ( empty( $GLOBALS['wp']->query_vars['hua_route'] ) )
-        return;
-
-    $args = explode('/', $GLOBALS['wp']->query_vars['hua_route']);
-    var_dump($args);
-	$argc = count($args);
-    if($argc <= 1 ){
-		echo "home page of tools";
-	}else if($args[1] == 'editor'){
-		echo "online editor";
-		get_template_part("templates/tools", "editor");
-	}else if($args[1] == 'home10'){
-		get_template_part("templates/page", "home10");
-	}else{
-		echo "home page of tools";
-	}
-
-
-	die();
 }
 add_action( 'template_redirect', 'custom_routing_loaded', -100 );
 
@@ -297,7 +310,12 @@ function twentythirteen_wp_title( $title, $sep ) {
 
 	// Add a page number if necessary.
 	if ( ( $paged >= 2 || $page >= 2 ) && ! is_404() )
-		$title = "$title $sep " . sprintf( __( 'Page %s', 'twentythirteen' ), max( $paged, $page ) );
+		$title = "$title $sep " . sprintf( __( 'Page %s', 'twentyhua' ), max( $paged, $page ) );
+
+	global $g_hua;
+	if($g_hua['title'] != false){
+		$title = $g_hua['title'];
+	}
 
 	return $title;
 }
@@ -310,9 +328,9 @@ add_filter( 'wp_title', 'twentythirteen_wp_title', 10, 2 );
  */
 function twentythirteen_widgets_init() {
 	register_sidebar( array(
-		'name'          => __( 'Main Widget Area', 'twentythirteen' ),
+		'name'          => __( 'Main Widget Area', 'twentyhua' ),
 		'id'            => 'sidebar-1',
-		'description'   => __( 'Appears in the footer section of the site.', 'twentythirteen' ),
+		'description'   => __( 'Appears in the footer section of the site.', 'twentyhua' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</aside>',
 		'before_title'  => '<h3 class="widget-title">',
@@ -320,9 +338,9 @@ function twentythirteen_widgets_init() {
 	) );
 
 	register_sidebar( array(
-		'name'          => __( 'Secondary Widget Area', 'twentythirteen' ),
+		'name'          => __( 'Secondary Widget Area', 'twentyhua' ),
 		'id'            => 'sidebar-2',
-		'description'   => __( 'Appears on posts and pages in the sidebar.', 'twentythirteen' ),
+		'description'   => __( 'Appears on posts and pages in the sidebar.', 'twentyhua' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</aside>',
 		'before_title'  => '<h3 class="widget-title">',
@@ -346,15 +364,15 @@ function twentythirteen_paging_nav() {
 	?>
 	<div class="padding-top40"></div>
 	<nav class="navigation paging-navigation" role="navigation">
-		<!--<h1 class="screen-reader-text"><?php _e( '文章导航', 'twentythirteen' ); ?></h1>-->
+		<!--<h1 class="screen-reader-text"><?php _e( '文章导航', 'twentyhua' ); ?></h1>-->
 		<div class="nav-links nav-xyz">
 
 			<?php if ( get_next_posts_link() ) : ?>
-			<div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> 以前的文章', 'twentythirteen' ) ); ?></div>
+			<div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> 以前的文章', 'twentyhua' ) ); ?></div>
 			<?php endif; ?>
 
 			<?php if ( get_previous_posts_link() ) : ?>
-			<div class="nav-next"><?php previous_posts_link( __( '最新文章 <span class="meta-nav">&rarr;</span>', 'twentythirteen' ) ); ?></div>
+			<div class="nav-next"><?php previous_posts_link( __( '最新文章 <span class="meta-nav">&rarr;</span>', 'twentyhua' ) ); ?></div>
 			<?php endif; ?>
 
 		</div><!-- .nav-links -->
@@ -381,11 +399,11 @@ function twentythirteen_post_nav() {
 	?>
 	<div class="padding-top40"></div>
 	<nav class="navigation post-navigation" role="navigation">
-		<!--<h1 class="screen-reader-text"><?php _e( 'Post navigation', 'twentythirteen' ); ?></h1>-->
+		<!--<h1 class="screen-reader-text"><?php _e( 'Post navigation', 'twentyhua' ); ?></h1>-->
 		<div class="nav-links">
-			<span><?php echo __("上一篇","hua");?>:&nbsp;</span><?php previous_post_link( '%link', _x( '%title', 'Previous post link', 'twentythirteen' ) ); ?>
+			<span><?php echo __("上一篇","hua");?>:&nbsp;</span><?php previous_post_link( '%link', _x( '%title', 'Previous post link', 'twentyhua' ) ); ?>
 			<br>
-			<span><?php echo __("下一篇","hua");?>:&nbsp;</span><?php next_post_link( '%link', _x( '%title', 'Next post link', 'twentythirteen' ) ); ?>
+			<span><?php echo __("下一篇","hua");?>:&nbsp;</span><?php next_post_link( '%link', _x( '%title', 'Next post link', 'twentyhua' ) ); ?>
 
 		</div><!-- .nav-links -->
 	</nav><!-- .navigation -->
@@ -403,19 +421,19 @@ if ( ! function_exists( 'twentythirteen_entry_meta' ) ) :
  */
 function twentythirteen_entry_meta() {
 	if ( is_sticky() && is_home() && ! is_paged() )
-		echo '<span class="featured-post">' . esc_html__( 'Sticky', 'twentythirteen' ) . '</span>';
+		echo '<span class="featured-post">' . esc_html__( 'Sticky', 'twentyhua' ) . '</span>';
 
 	if ( ! has_post_format( 'link' ) && 'post' == get_post_type() )
 		twentythirteen_entry_date();
 
 	// Translators: used between list items, there is a space after the comma.
-	$categories_list = get_the_category_list( __( ', ', 'twentythirteen' ) );
+	$categories_list = get_the_category_list( __( ', ', 'twentyhua' ) );
 	if ( $categories_list ) {
 		echo '<span class="categories-links">' . $categories_list . '</span>';
 	}
 
 	// Translators: used between list items, there is a space after the comma.
-	$tag_list = get_the_tag_list( '', __( ', ', 'twentythirteen' ) );
+	$tag_list = get_the_tag_list( '', __( ', ', 'twentyhua' ) );
 	if ( $tag_list ) {
 		echo '<span class="tags-links">' . $tag_list . '</span>';
 	}
@@ -424,7 +442,7 @@ function twentythirteen_entry_meta() {
 	if ( 'post' == get_post_type() ) {
 		printf( '<span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s" rel="author">%3$s</a></span>',
 			esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
-			esc_attr( sprintf( __( 'View all posts by %s', 'twentythirteen' ), get_the_author() ) ),
+			esc_attr( sprintf( __( 'View all posts by %s', 'twentyhua' ), get_the_author() ) ),
 			get_the_author()
 		);
 	}
@@ -444,13 +462,13 @@ if ( ! function_exists( 'twentythirteen_entry_date' ) ) :
  */
 function twentythirteen_entry_date( $echo = true ) {
 	if ( has_post_format( array( 'chat', 'status' ) ) )
-		$format_prefix = _x( '%1$s on %2$s', '1: post format name. 2: date', 'twentythirteen' );
+		$format_prefix = _x( '%1$s on %2$s', '1: post format name. 2: date', 'twentyhua' );
 	else
 		$format_prefix = '%2$s';
 
 	$date = sprintf( '<span class="date"><a href="%1$s" title="%2$s" rel="bookmark"><time class="entry-date" datetime="%3$s">%4$s</time></a></span>',
 		esc_url( get_permalink() ),
-		esc_attr( sprintf( __( 'Permalink to %s', 'twentythirteen' ), the_title_attribute( 'echo=0' ) ) ),
+		esc_attr( sprintf( __( 'Permalink to %s', 'twentyhua' ), the_title_attribute( 'echo=0' ) ) ),
 		esc_attr( get_the_date( 'c' ) ),
 		esc_html( sprintf( $format_prefix, get_post_format_string( get_post_format() ), get_the_date() ) )
 	);
@@ -559,7 +577,8 @@ function twentythirteen_excerpt_more( $more ) {
 	$link = sprintf( '<a href="%1$s" class="more-link">%2$s</a>',
 		esc_url( get_permalink( get_the_ID() ) ),
 			/* translators: %s: Name of current post */
-			sprintf( __( 'Continue reading %s <span class="meta-nav">&rarr;</span>', 'twentythirteen' ), '<span class="screen-reader-text">' . get_the_title( get_the_ID() ) . '</span>' )
+			//sprintf( __( '阅读全文 %s <span class="meta-nav">&rarr;</span>', 'twentyhua' ), '<span class="screen-reader-text">' . get_the_title( get_the_ID() ) . '</span>' )
+			sprintf("<div>". __( '阅读全文 >>', 'twentyhua' )."</div>")
 		);
 	return ' &hellip; ' . $link;
 }
@@ -631,12 +650,29 @@ add_action( 'customize_register', 'twentythirteen_customize_register' );
  * @since Twenty Thirteen 1.0
  */
 function twentythirteen_customize_preview_js() {
-	wp_enqueue_script( 'twentythirteen-customizer', get_template_directory_uri() . '/js/theme-customizer.js', array( 'customize-preview' ), '20141120', true );
+	wp_enqueue_script( 'twentyhua-customizer', get_template_directory_uri() . '/js/theme-customizer.js', array( 'customize-preview' ), '20141120', true );
 }
 add_action( 'customize_preview_init', 'twentythirteen_customize_preview_js' );
 
 // Hide the admin bar
 add_filter('show_admin_bar', '__return_false');
+
+// wp_trim_words does not support Chinese
+function new_trim_excerpt($text, $raw_excerpt) 
+{
+	if(strlen($text) <= 0){
+		return $text;
+	}
+	$excerpt_length = 30;
+	$excerpt_more = apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
+    $excerpt_text = wp_trim_words( $text, $excerpt_length, $excerpt_more );
+	if(strlen($text) == strlen($excerpt_text)){
+		$excerpt_text = mb_strimwidth($text, 0, $excerpt_length * 20, '...');
+	}
+	return $excerpt_text ;
+}
+add_filter('wp_trim_excerpt', 'new_trim_excerpt');
+
 
 function get_active_nav()
 {
@@ -674,6 +710,9 @@ $g_hua_routing = array(
              array(0, '/home10', 'hua_page_home10')
             ,array(0, '/home11', 'hua_page_home11')
             ,array(0, '/calendar', 'hua_page_calendar')
+            ,array(0, '/html5/fireworks', 'hua_page_html5_fireworks')
+            ,array(0, '/html5/mplayer', 'hua_page_html5_mplayer')
+            ,array(0, '/html5/flowchart', 'hua_page_flowchart')
 	);
 
 function hua_routing_load($route)

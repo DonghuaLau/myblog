@@ -13,5 +13,19 @@ function hua_page_calendar()
 	include('components/calendar/index.php');
 	//get_footer();
 }
+function hua_page_html5_fireworks()
+{
+	include('components/html5-fireworks/index.php');
+}
+
+function hua_page_html5_mplayer()
+{
+	include('components/html5-mplayer/index.php');
+}
+
+function hua_page_flowchart()
+{
+	include('components/flowchart/index.php');
+}
 
 ?>

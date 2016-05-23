@@ -13,6 +13,7 @@ get_header(); ?>
 <div class="padding-top40"></div>
 <div class="row">
 
+<div class="col-md-9">
 	<div id="primary" class="content-area">
 		<div id="content" class="site-content" role="main">
 
@@ -35,9 +36,20 @@ get_header(); ?>
 
 		</div><!-- #content -->
 	</div><!-- #primary -->
+</div><!-- col-md-9 -->
 
-<div class="margin-top80"></div>
+<div class="col-md-2">
+	<?php get_template_part( 'templates/sidebar', 'left' ); ?>
+</div><!-- col-md-2 -->
+
 </div><!-- row -->
+
+<div class="row">
+	<div class="col-md-8">
+	<div class="padding-top40"></div>
+	</div><!-- col-md-8 -->
+</div><!-- row -->
+
 </div><!-- container -->
 
 <?php get_sidebar(); ?>

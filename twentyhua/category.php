@@ -47,22 +47,7 @@ get_header(); ?>
 </div><!-- col-md-8 -->
 
 <div class="col-md-2">
-	<div class="padding-top40"></div>
-	<div class="panel">
-	  <div class="panel-heading">
-	    <h3 class="panel-title"><?php echo __("文章分类", "hua"); ?></h3>
-	  </div>
-	  <div class="panel-body">
-		<?php
-			$categories = get_categories();
-			foreach($categories as $cat){
-		  		//echo "<li><a href=\"".get_category_link($cat->cat_ID)."\">".$cat->cat_name."</a></li>";
-		        echo "<li><a href=\"".get_category_link($cat->cat_ID)."\">".$cat->cat_name."<span class=\"badge\">".$cat->category_count."</span></a></li>";
-			}
-		?>
-		</ul>
-	  </div>
-	</div>
+	<?php get_template_part( 'templates/sidebar', 'left' ); ?>
 </div><!-- col-md-2 -->
 
 </div><!-- row -->

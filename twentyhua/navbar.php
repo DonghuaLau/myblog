@@ -1,7 +1,5 @@
 <?php
 	$nav_active = get_active_nav();
-	
-
 ?>
 		<nav id="hua-nav" class="navbar navbar-default <?php if(defined("NAV_FIX")){echo " navbar-fixed-top";} ?>">
 		  <div class="container-fluid">
@@ -34,25 +32,34 @@
 				  ?>
 		          </ul>
 		        </li>
-		        <li class="dropdown">
-		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">其它<span class="caret"></span></a>
-		          <ul class="dropdown-menu">
-		            <li><a href="/screenslider">Full screen slider</a></li>
-		            <!--<li><a href="/front/home11"><?php //echo __("首页Morn", "hua"); ?></a></li>-->
-					<li role="separator" class="divider"></li>
-		            <li><a href="javascript:void(0);">...</a></li>
-		          </ul>
-		        </li>
+
 		        <li class="dropdown<?php echo $nav_active['tools'];?>">
 		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">工具<span class="caret"></span></a>
 		          <ul class="dropdown-menu">
 		            <li><a href="/front/calendar"><?php echo __("万年历", "hua"); ?></a></li>
+		            <li><a href="/front/html5/mplayer"><?php echo __("音乐播放器", "hua"); ?></a></li>
+		            <li><a href="/front/html5/flowchart"><?php echo __("流程图", "hua"); ?></a></li>
 					<li role="separator" class="divider"></li>
 		            <li><a href="javascript:void(0);">...</a></li>
 		          </ul>
 		        </li>
+
+		        <li class="dropdown">
+		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">其它<span class="caret"></span></a>
+		          <ul class="dropdown-menu">
+		            <li><a href="/screenslider">Full screen slider</a></li>
+					<li role="separator" class="divider"></li>
+		            <li><a href="/front/html5/fireworks" target="_blank">html5烟花</a></li>
+		            <li><a href="http://www.html5tricks.com/8-html5-animation-with-code.html" target="_blank">更多html5动画实例</a></li>
+		            <li><a href="http://www.html5tricks.com/tag/html5%E5%8A%A8%E7%94%BB/" target="_blank">更多html5动画实例</a></li>
+					<li role="separator" class="divider"></li>
+		            <li><a href="javascript:void(0);">...</a></li>
+		          </ul>
+		        </li>
+
 		        <li><a href="/wiki">我的维基</a></li>
 		        <li<?php echo $nav_active['about'];?>><a href="/about">关于</a></li>
+
 		        <form class="navbar-form navbar-left" role="search" method="get" action="/">
 				<div class="input-group"> 
 					<input id="search-word" type="text" class="form-control" placeholder="输入关键词搜索" value="<?php if(isset($_GET['s'])){ echo $_GET['s']; } ?>" name="s" aria-label="">
@@ -66,6 +73,7 @@
 				    </div>
 				</div>
 		        </form>
+
 		      </ul>
 		      <ul class="nav navbar-nav navbar-right">
 				<li id="music-bar" style="display:none;">
@@ -79,11 +87,12 @@
                 ?>
                    <li><a href="<?php echo admin_url('post-new.php'); ?>"><?php echo "发表文章"; ?></a></li>
                    <li><a href="<?php echo admin_url(); ?>"><?php echo $current_user->user_login; ?></a></li>
-                   <li><a href="<?php echo wp_logout_url("http://".$_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]); ?>">退出</a></li>
+                   <li><a href="<?php echo wp_logout_url("http://".$_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]); ?>"><span>退出</span></a></li>
                  <?php }else{ ?>
-                   <li><a href="<?php echo wp_login_url("http://".$_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]); ?>">登录</a></li>
+                   <li><a href="<?php echo wp_login_url("http://".$_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]); ?>"><span>登录</span></a></li>
                  <?php } ?>
 		      </ul>
+
 		    </div><!-- /.navbar-collapse -->
 		  </div><!-- /.container-fluid -->
 		</nav>	
@@ -98,20 +107,4 @@
 	</form>
 </div>
 <script type="text/javascript">
-jQuery(document).ready(function(){
-	jQuery("#google-search").click(function(){
-		var word = jQuery("#search-word").val();
-		var action = "https://www.google.com/#newwindow=1&q=" + word;
-		console.log("google search, word: " + word + ", action: " + action);
-		//jQuery("#google-search-word").val(word);
-		jQuery("#google-search-form").attr("action", action);
-		jQuery("#google-search-form").submit();
-	});
-	jQuery("#baidu-search").click(function(){
-		var word = jQuery("#search-word").val();
-		console.log("baidu search, word: " + word);
-		jQuery("#baidu-search-word").val(word);
-		jQuery("#baidu-search-form").submit();
-	});
-});
 </script>

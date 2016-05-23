@@ -12,6 +12,12 @@
 
 		</div><!-- #main -->
 
+		<!-- go to top -->
+		<a id="gotop" href="#"><!--<span class="glyphicon glyphicon-home"></span>--></a>
+		<script>
+		</script>
+		
+
 		<footer class="site-footer" role="contentinfo">
 			<?php //get_sidebar( 'main' ); ?>
 
