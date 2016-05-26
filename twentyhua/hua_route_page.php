@@ -28,4 +28,9 @@ function hua_page_flowchart()
 	include('components/flowchart/index.php');
 }
 
+function hua_page_koubei_demo()
+{
+	get_template_part("components/koubei", "demo");
+}
+
 ?>

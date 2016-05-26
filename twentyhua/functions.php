@@ -658,7 +658,7 @@ add_action( 'customize_preview_init', 'twentythirteen_customize_preview_js' );
 add_filter('show_admin_bar', '__return_false');
 
 // wp_trim_words does not support Chinese
-function new_trim_excerpt($text, $raw_excerpt) 
+function new_trim_excerpt($text) 
 {
 	if(strlen($text) <= 0){
 		return $text;
@@ -667,7 +667,7 @@ function new_trim_excerpt($text, $raw_excerpt)
 	$excerpt_more = apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
     $excerpt_text = wp_trim_words( $text, $excerpt_length, $excerpt_more );
 	if(strlen($text) == strlen($excerpt_text)){
-		$excerpt_text = mb_strimwidth($text, 0, $excerpt_length * 20, '...');
+		$excerpt_text = mb_strimwidth($text, 0, $excerpt_length * 20, $excerpt_more);
 	}
 	return $excerpt_text ;
 }
@@ -713,6 +713,7 @@ $g_hua_routing = array(
             ,array(0, '/html5/fireworks', 'hua_page_html5_fireworks')
             ,array(0, '/html5/mplayer', 'hua_page_html5_mplayer')
             ,array(0, '/html5/flowchart', 'hua_page_flowchart')
+            ,array(0, '/kb/demo', 'hua_page_koubei_demo')
 	);
 
 function hua_routing_load($route)

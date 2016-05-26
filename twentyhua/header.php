@@ -51,6 +51,9 @@
 .site-main p{
 	word-wrap: break-word;
 }
+#search-word{
+    height: auto;
+}
 @media (max-width: 769px){
 	.site-main img{
 		width:100%;
