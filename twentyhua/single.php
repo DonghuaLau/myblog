@@ -11,7 +11,7 @@ get_header();
 ?>
 	
 <div class="container">
-<div class="padding-top40"></div>
+<div class="padding-top20"></div>
 <div class="row">
 
 <div class="col-md-9">
@@ -28,19 +28,13 @@ get_header();
 
 		</div><!-- #content -->
 	</div><!-- #primary -->
+	<?php comments_template(); ?>
 </div><!-- col-md-9 -->
 
-<div class="col-md-2">
+<div class="col-md-3">
 	<?php get_template_part( 'templates/sidebar', 'left' ); ?>
-</div><!-- col-md-2 -->
+</div><!-- col-md-3 -->
 
-</div><!-- row -->
-
-<div class="row">
-<div class="col-md-8">
-<div class="padding-top40"></div>
-<?php comments_template(); ?>
-</div><!-- col-md-8 -->
 </div><!-- row -->
 
 </div><!-- container -->

@@ -30,6 +30,7 @@
 
 	<link rel='stylesheet' id='twentythirteen-style-css'  href='/wp-content/themes/twentyhua/css/bootstrap.min.css?ver=20160301' type='text/css' media='all' />
 	<script type='text/javascript' src='/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+	<script type='text/javascript' src='/wp-content/themes/twentyhua/js/bootstrap.min.js'></script>
 	<script type='text/javascript' src='/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
 
 <style>
@@ -113,7 +114,7 @@
     padding: 5px 0;
     border-bottom: 1px solid #e7e7eb;
     font-size: 14px;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 }
 .selected{
 	background-color: #0ae;
@@ -163,12 +164,12 @@
     word-wrap: normal;
 }
 .iconfont-crmhome {
-    font-family: 'crmhome';
+    //font-family: 'crmhome';
     font-weight: 400;
     font-style: normal;
     cursor: default;
     -webkit-font-smoothing: antialiased;
-    -webkit-text-stroke-width: .2px;
+    //-webkit-text-stroke-width: .2px;
 }
 .ho-recommend img{
 	margin-left:25px;
@@ -243,6 +244,55 @@
 		<div class="margin-top20"></div>
 		<div class="ho-recommend">
 			<img src="https://i.alipayobjects.com/i/ecmng/jpg/201512/6JQLEn7ok9.jpg">
+		</div>
+
+		
+		<div class="margin-top40"></div>
+		<br/>
+		<div class="margin-top40"></div>
+
+		<div style="width:100%;text-align:center;">
+		<script type="text/javascript">
+		document.write(unescape("%3Cspan class='dsc-zone' id='dsc-zone-878690'%3E%3C/span%3E%3Cscript src='http://www.dashangcloud.com/open/dsc-1.1.js' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+		<script type="text/javascript">
+		n = 1;
+		if(n == 0){
+			dsc.config({
+				type:"image",
+				//show:"http://liudonghua.net/wp-content/themes/twentyhua/images/avatar_64.jpg", //"打赏",
+				show:"http://www.dashangcloud.com/static/ds-logo-1.2-64.png", 
+				width:64,
+				height:64,
+				radius:50,
+				//amount:[1.8, 2.8, 5.8, 9.8, 99.8, 188],
+				amount:[1, 2, 8, 9.8, 99.8, 188],
+				userid:100001,
+				contentid:200001,
+				author:"Donghua.Lau",
+				author_link:"http://liudonghua.net",
+				link:"http://host/link.html",
+				key:"123456789" 
+			});
+		}else if(n == 1){
+			dsc.config({
+				type:"button",
+				show:"求赏",
+				//show:"女神",
+				//width:70,
+				//height:32,
+				amount:[1.8, 2.8, 5.8, 9.8, 99.8, 188],
+				//amount:[1.8, 2.8, 5.8],
+				//amount:[188],
+				userid:100001,
+				contentid:200001,
+				author:"李某",
+				author_link:"http://liudonghua.net",
+				link:"http://host/link.html",
+				key:"123456789" 
+			});
+		}
+		</script>
 		</div>
 
 	</div><!-- /.ho-context -->

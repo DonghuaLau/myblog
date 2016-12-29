@@ -76,20 +76,20 @@
 
 		      </ul>
 		      <ul class="nav navbar-nav navbar-right">
+				<?php /*
 				<li id="music-bar" style="display:none;">
 					<audio controls>
 					  <source src="<?php echo get_template_directory_uri(); ?>/musics/pingxingyuzhou.mp3" type="audio/mpeg">
 					  <?php echo __("Unsupported", "hua"); ?>
 					</audio>
 				</li>
+				*/ ?>
 				<?php if(is_user_logged_in()){
                          $current_user = wp_get_current_user();
                 ?>
                    <li><a href="<?php echo admin_url('post-new.php'); ?>"><?php echo "发表文章"; ?></a></li>
                    <li><a href="<?php echo admin_url(); ?>"><?php echo $current_user->user_login; ?></a></li>
                    <li><a href="<?php echo wp_logout_url("http://".$_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]); ?>"><span>退出</span></a></li>
-                 <?php }else{ ?>
-                   <li><a href="<?php echo wp_login_url("http://".$_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]); ?>"><span>登录</span></a></li>
                  <?php } ?>
 		      </ul>
 

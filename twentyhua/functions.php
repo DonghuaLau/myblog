@@ -23,10 +23,11 @@
  * @since Twenty Hua 1.0
  */
 
+define( 'TWENTY_HUA_VERSION', '1.0.0' );
+define("LOG_FILE", getcwd()."/var/log/ds.log");
+
 require_once('config.php');
 require_once('hua_route_page.php');
-
-define( 'TWENTY_HUA_VERSION', '1.0.0' );
 
 global $g_hua;
 $g_hua = array(
@@ -192,7 +193,7 @@ function twentyhua_scripts_styles() {
 	//wp_enqueue_style( 'genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '3.03' );
 
 	// Loads our main stylesheet.
-	wp_enqueue_style( 'twentyhua-style', get_stylesheet_uri(), array(), '2016-03-24' );
+	wp_enqueue_style( 'twentyhua-style', get_stylesheet_uri(), array(), '2016-07-05' );
 
 	// Loads the Internet Explorer specific stylesheet.
 	wp_enqueue_style( 'twentyhua-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentyhua-style' ), '2016-03-18' );
@@ -238,6 +239,13 @@ add_action( 'wp_head', 'twentyhua_add_my_scripts' );
  *
  */
 function custom_routing_init() {
+
+	// forece enable SSL detection if needed. 
+	// * two problems *:
+	//		1.if enable SSL, can't run https js scripts, eg: dashangcloud.com
+	//		2.firefox not trust free SSL certificates(Symantec)
+	//$_SERVER['HTTPS'] = 'on';
+
     custom_routing_register_rewrites();
 
     global $wp;
@@ -314,7 +322,7 @@ function twentythirteen_wp_title( $title, $sep ) {
 
 	global $g_hua;
 	if($g_hua['title'] != false){
-		$title = $g_hua['title'];
+		$title = $g_hua['title'] . ' | ' . $title;
 	}
 
 	return $title;
@@ -403,7 +411,7 @@ function twentythirteen_post_nav() {
 		<div class="nav-links">
 			<span><?php echo __("上一篇","hua");?>:&nbsp;</span><?php previous_post_link( '%link', _x( '%title', 'Previous post link', 'twentyhua' ) ); ?>
 			<br>
-			<span><?php echo __("下一篇","hua");?>:&nbsp;</span><?php next_post_link( '%link', _x( '%title', 'Next post link', 'twentyhua' ) ); ?>
+			<span><?php echo __("下一篇","hua");?>:&nbsp;</span><?php $next = next_post_link( '%link', _x( '%title', 'Next post link', 'twentyhua' ) ); ?>
 
 		</div><!-- .nav-links -->
 	</nav><!-- .navigation -->
@@ -666,7 +674,9 @@ function new_trim_excerpt($text)
 	$excerpt_length = 30;
 	$excerpt_more = apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
     $excerpt_text = wp_trim_words( $text, $excerpt_length, $excerpt_more );
-	if(strlen($text) == strlen($excerpt_text)){
+	//echo "<h2>text len: ".strlen($text).", excerpt len: ".strlen($excerpt_text)."</h2>";
+	//if(strlen($text) == strlen($excerpt_text)){
+	if(strlen($excerpt_text) > $excerpt_length){
 		$excerpt_text = mb_strimwidth($text, 0, $excerpt_length * 20, $excerpt_more);
 	}
 	return $excerpt_text ;
@@ -709,11 +719,21 @@ $g_hua_routing = array(
              //array(need login?, '/router/uri', 'router_handler')
              array(0, '/home10', 'hua_page_home10')
             ,array(0, '/home11', 'hua_page_home11')
+            ,array(0, '/bookshelf', 'hua_page_bookshelf')
             ,array(0, '/calendar', 'hua_page_calendar')
             ,array(0, '/html5/fireworks', 'hua_page_html5_fireworks')
             ,array(0, '/html5/mplayer', 'hua_page_html5_mplayer')
             ,array(0, '/html5/flowchart', 'hua_page_flowchart')
             ,array(0, '/kb/demo', 'hua_page_koubei_demo')
+            ,array(0, '/js/weixin', 'hua_page_weixin_js')
+            ,array(0, '/demo/iframe', 'hua_page_demo_iframe')
+            ,array(0, '/demo/spider', 'hua_page_demo_spider')
+            ,array(0, '/dashangcloud/notify', 'dashangcloud_notify')
+            ,array(0, '/dashang/image', 'hua_page_dashang_image')
+            ,array(0, '/dashang/button', 'hua_page_dashang_button')
+            ,array(0, '/becktu', 'hua_page_becktu')
+            ,array(0, '/becktu/detail', 'hua_page_becktu_detail')
+            ,array(0, '/becktu/take/note', 'hua_page_becktu_take_note')
 	);
 
 function hua_routing_load($route)
@@ -727,10 +747,28 @@ function hua_routing_load($route)
 
 }
 
+function my_get_recent_posts($num) {
+    global $wpdb;
+    
+    $posts = $wpdb->get_results("SELECT comment_count, ID, post_title FROM $wpdb->posts where post_type = 'post' and post_status = 'publish' ORDER BY post_date DESC LIMIT 0 , $num");
+    
+    foreach ($posts as $post) {
+        setup_postdata($post);
+        $id = $post->ID;
+        $title = $post->post_title;
+        $count = $post->comment_count;
+        $popular .= '<li>';
+        $popular .= '<a href="' . get_permalink($id) . '" title="' . $title . '">' . $title . '</a> ';
+        $popular .= '</li>';
+    }
+    return $popular;
+}
+
+
 function get_popular_posts($num) {
     global $wpdb;
     
-    $posts = $wpdb->get_results("SELECT comment_count, ID, post_title FROM $wpdb->posts where post_type = 'post' ORDER BY comment_count DESC LIMIT 0 , $num");
+    $posts = $wpdb->get_results("SELECT comment_count, ID, post_title FROM $wpdb->posts where post_type = 'post' and post_status = 'publish' ORDER BY comment_count DESC LIMIT 0 , $num");
     
     foreach ($posts as $post) {
         setup_postdata($post);
@@ -738,12 +776,69 @@ function get_popular_posts($num) {
         $title = $post->post_title;
         $count = $post->comment_count;
         
-        //if ($count != 0) {
-        if (1) {
-            $popular .= '<li>';
-            $popular .= '<a href="' . get_permalink($id) . '" title="' . $title . '">' . $title . '</a> ';
-            $popular .= '</li>';
-        }
+        $popular .= '<li>';
+        $popular .= '<a href="' . get_permalink($id) . '" title="' . $title . '">' . $title . '</a> ';
+        $popular .= '</li>';
     }
     return $popular;
+}
+
+function my_get_search_form()
+{
+    $form =  '<form role="search" method="get" class="row" action="/">'
+            .'      <input type="search" class="form-control" placeholder="Search ..." value="" name="s" style="width:160px;float:left;">'
+            .'  <input type="submit" class="search-submit btn btn-default" value="搜索" style="width:80px;margin-left:10px;">'
+            .'</form>';
+    echo $form;
+}
+
+function my_comment_form()
+{
+	$from = '<form action="http://liudonghua.net/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate="">'
+		.'	<p class="comment-notes">'
+		.'		<span id="email-notes">电子邮件地址不会被公开。</span> 必填项已用 <span class="required">*</span> 标注'
+		.'	</p>							'
+		.'	<p class="comment-form-author">'
+		.'		<label for="author">姓名 <span class="required">*</span></label> '
+		.'		<input id="author" name="author" type="text" value="" size="30" aria-required="true" required="required">'
+		.'	</p>'
+		.'	<p class="comment-form-email">'
+		.'		<label for="email">电子邮件 <span class="required">*</span></label> '
+		.'		<input id="email" name="email" type="email" value="" size="30" aria-describedby="email-notes" aria-required="true" required="required">'
+		.'	</p>'
+		.'	<p class="comment-form-url">'
+		.'		<label for="url">站点</label> '
+		.'		<input id="url" name="url" type="url" value="" size="30">'
+		.'	</p>'
+		.'	<p class="comment-form-comment">'
+		.'		<label for="comment">评论</label> '
+		.'		<textarea id="comment" name="comment" cols="45" rows="4" aria-describedby="form-allowed-tags" aria-required="true" required="required"></textarea>'
+		.'	</p>						'
+		.'	<p class="form-allowed-tags" id="form-allowed-tags">'
+		.'		您可以使用这些 <abbr title="HyperText Markup Language">HTML</abbr> 标签和属性： <code>&lt;a href="" title=""&gt; &lt;abbr title=""&gt; &lt;acronym title=""&gt; &lt;b&gt; &lt;blockquote cite=""&gt; &lt;cite&gt; &lt;code class="" title="" data-url=""&gt; &lt;del datetime=""&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=""&gt; &lt;s&gt; &lt;strike&gt; &lt;strong&gt; &lt;pre class="" title="" data-url=""&gt; &lt;span class="" title="" data-url=""&gt; </code>'
+		.'	</p>'
+		.'	<p class="form-submit">'
+		.'		<input name="submit" type="submit" id="submit" class="submit" value="发表评论"> '
+		.'		<input type="hidden" name="comment_post_ID" value="376" id="comment_post_ID">'
+		.'		<input type="hidden" name="comment_parent" id="comment_parent" value="0">'
+		.'	</p>'
+		.'</form>';
+}
+
+function dslog($tag, $msg)
+{
+    date_default_timezone_set("PRC");
+    $timestr = date('Y-m-d H:i:s', time());
+    $log_suffix = date('.Ym', time());
+    $logfile = LOG_FILE.$log_suffix;
+    file_put_contents($logfile, "$timestr [$tag] $msg\n", FILE_APPEND | LOCK_EX);
+}
+
+function var_dump_string($obj)
+{
+    ob_start();
+    var_dump($obj);
+    $content = ob_get_contents();
+    ob_end_clean();
+    return $content;
 }

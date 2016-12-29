@@ -36,68 +36,30 @@
 
 <!-- move to style.css later -->
 <style>
-#hua-nav .navbar-right a{
-	font-size:12px;
-	padding-left: 0px;
-}
-#hua-nav .navbar-right a > span{
-	font-size:12px;
-	border-style: solid; 
-	border-width: 1px;
-	border-radius: 3px;
-    color: #178fe6;
-	padding: 5px 10px 5px 10px;
-}
-.site-main p{
+
+.site-content{
 	word-wrap: break-word;
 }
-#search-word{
-    height: auto;
-}
-@media (max-width: 769px){
-	.site-main img{
-		width:100%;
-	}
-	#gotop{ 
-		display:block;  
-		width:60px; 
-		height:60px;
-		position:fixed;  
-		bottom:40px;  
-		right:20px; 
-		border-radius:50%;   
-		text-decoration:none;  
-		display:none;  
-		background-color:#5bc0de;
-		background:url(/wp-content/themes/twentyhua/images/supperman-80x80.png);
-		background-size:100%;
-		background-repeat: no-repeat;
-		/* for IE */
-  		filter:alpha(opacity=60);
-  		/* CSS3 standard */
-  		opacity:0.6;
-	}
-}
-@media (min-width: 769px){
-	.dropdown:hover .dropdown-menu {
-		display: block;
-	}
-	#gotop{ 
-		display:block;  
-		width:80px; 
-		height:80px;
-		position:fixed;  
-		bottom:40px;  
-		right:20px; 
-		border-radius:50%;   
-		text-decoration:none;  
-		display:none;  
-		background-color:#5bc0de;
-		background:url(/wp-content/themes/twentyhua/images/supperman-80x80.png);
-	}
+.wp-video{
+    margin: auto;
 }
 
-
+.entry-content h1{
+	margin:20px 0 10px 0;
+	font-size:1.6em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+.entry-content h2{
+	margin:16px 0 16px 0;
+	font-size:1.5em;
+}
+.entry-content p{
+	text-indent:2.0em;
+	font-size:1.0em;
+	word-wrap: break-word;
+	margin:5px 0 5px 0;
+}
 
 </style>
 

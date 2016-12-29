@@ -1,4 +1,8 @@
-
+<style>
+.panel-body li a{
+	margin-left: -18px;
+}
+</style>
 <div class="row">
 	<div class="padding-top40"></div>
 	<div class="panel">
@@ -9,7 +13,6 @@
 		<?php
 			$categories = get_categories();
 			foreach($categories as $cat){
-		  		//echo "<li><a href=\"".get_category_link($cat->cat_ID)."\">".$cat->cat_name."</a></li>";
 		        echo "<li><a href=\"".get_category_link($cat->cat_ID)."\">".$cat->cat_name."<span class=\"badge\">".$cat->category_count."</span></a></li>";
 			}
 		?>
@@ -25,12 +28,7 @@
 	    <h3 class="panel-title"><?php echo __("最新文章", "hua"); ?><!--<a class="panel-title-right" href="#">更多>></a>--></h3>
 	  </div>
 	  <div class="panel-body">
-	  <?php
-	  	$recent_posts = wp_get_recent_posts();
-	  	foreach( $recent_posts as $recent ){
-	  		echo '<li><a href="' . get_permalink($recent["ID"]) . '">' .   $recent["post_title"].'</a> </li> ';
-	  	}
-	  ?>
+	  <?php echo my_get_recent_posts(20); ?>
 	  </div>
 	</div>
 </div><!-- row -->
@@ -42,7 +40,19 @@
 	    <h3 class="panel-title"><?php echo __("热门文章", "hua"); ?><!--<a class="panel-title-right" href="#">更多>></a>--></h3>
 	  </div>
 	  <div class="panel-body">
-	  <?php echo get_popular_posts(10); ?>
+	  <?php echo get_popular_posts(20); ?>
+	  </div>
+	</div>
+</div><!-- row -->
+
+<div class="row">
+	<!-- hotest articles -->
+	<div class="panel">
+	  <div class="panel-heading">
+	    <h3 class="panel-title"><?php echo __("友情链接", "hua"); ?><!--<a class="panel-title-right" href="#">更多>></a>--></h3>
+	  </div>
+	  <div class="panel-body">
+		<li><a href="http://www.csmbcfw.com/">长沙面包车出租搬家</a></li>
 	  </div>
 	</div>
 </div><!-- row -->

@@ -68,6 +68,21 @@ Use it to make something cool, have fun, and share what you've learned with othe
 	border-color:white;
 	border-radius:0px;
 }
+#hua-nav .navbar-toggle:focus, #hua-nav .navbar-toggle:hover{
+    background-color:white;
+}
+#hua-nav .navbar-right a{
+	font-size:12px;
+	padding-left: 0px;
+}
+#hua-nav .navbar-right a > span{
+	font-size:12px;
+	border-style: solid; 
+	border-width: 1px;
+	border-radius: 3px;
+    color: #178fe6;
+	padding: 5px 10px 5px 10px;
+}
 #music-bar{
 }
 #hua-body .badge{
@@ -95,6 +110,7 @@ Use it to make something cool, have fun, and share what you've learned with othe
 }
 .entry-content{
 	margin-top:30px;
+	word-wrap: break-word;
 }
 .entry-meta .categories-links{
 	padding-left:10px;
@@ -177,10 +193,66 @@ Use it to make something cool, have fun, and share what you've learned with othe
 	    background-color: white;
 	}
 }
+//.site-main p{
+//	word-wrap: break-word;
+//}
+#search-word{
+    height: auto;
+}
+@media (max-width: 1090px){
+	.site-main img{
+		width:100%;
+	}
+	#gotop{ 
+		display:block;  
+		width:40px; 
+		height:40px;
+		position:fixed;  
+		bottom:20px;  
+		right:10px; 
+		border-radius:50%;   
+		text-decoration:none;  
+		display:none;  
+		background-color:#5bc0de;
+		//background:url(/wp-content/themes/twentyhua/images/supperman-80x80.png);
+		background:url(/wp-content/themes/twentyhua/images/gotop.png);
+		background-size:40px;
+		background-repeat: no-repeat;
+		/* for IE */
+  		filter:alpha(opacity=60);
+  		/* CSS3 standard */
+  		opacity:0.6 !important;
+		z-index:999;
+	}
+}
+@media (min-width: 1090px){
+	.dropdown:hover .dropdown-menu {
+		display: block;
+	}
+	#gotop{ 
+		display:block;  
+		width:40px; 
+		height:40px;
+		position:fixed;  
+		bottom:30px;  
+		right:20%; 
+		border-radius:50%;   
+		text-decoration:none;  
+		display:none;  
+		background-color:#5bc0de;
+		//background:url(/wp-content/themes/twentyhua/images/supperman-80x80.png);
+		background:url(/wp-content/themes/twentyhua/images/gotop.png);
+		background-size:40px;
+  		opacity:0.6 !important;
+		z-index:999;
+	}
+}
 .site-footer {
     text-align: center;
     font-size: 12px;
     color: #8d8d8d;
+	background-color:white;
+	padding-top: 20px;
 }
 .margin-top20{
 	margin-top:20px;

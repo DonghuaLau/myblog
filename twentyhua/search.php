@@ -38,9 +38,9 @@ get_header(); ?>
 	</div><!-- #primary -->
 </div><!-- col-md-9 -->
 
-<div class="col-md-2">
+<div class="col-md-3">
 	<?php get_template_part( 'templates/sidebar', 'left' ); ?>
-</div><!-- col-md-2 -->
+</div><!-- col-md-3 -->
 
 </div><!-- row -->
 
