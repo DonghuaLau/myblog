@@ -9,7 +9,7 @@
 
 get_header(); 
 ?>
-	
+
 	<div id="primary" class="content-area">
 		<div id="content" class="site-content" role="main">
 
@@ -17,20 +17,25 @@ get_header();
 			<?php while ( have_posts() ) : the_post(); ?>
 
 				<?php get_template_part( 'content', get_post_format() );  ?>
+
+				<div style="margin-top:2rem;"></div>
 				<?php huaui_post_nav(); ?>
 
 			<?php endwhile; ?>
 
 		</div><!-- #content -->
 	</div><!-- #primary -->
-	<div style="margin-top:3rem;"></div>
-	<?php comments_template(); ?>
+
+	<?php	if ( comments_open() || get_comments_number() ) {
+			echo '<div style="margin-top:3rem;"></div>';
+			comments_template();
+		}
+	?>
 
 
 
 </div><!-- container -->
 
-<div class="padding-top40"></div>
 
 <?php get_footer(); ?>
 

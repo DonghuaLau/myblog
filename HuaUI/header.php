@@ -43,10 +43,51 @@
 <style>
 
 #body, .ui.menu, h1, h2, h3, h4, h5 {
-    height:100%;
+    height:auto;
     font-family: "Microsoft YaHei","微软雅黑";
 }
 
+.entry-title, .entry-meta{
+	text-align: left;
+}
+
+h1{
+	font-size: 1.3rem;
+}
+
+h2{
+	font-size: 1.2rem;
+}
+
+h3{
+	font-size: 1.1rem;
+}
+
+.pushable{
+	margin-bottom:0 !important;
+}
+.pusher{
+min-height:100%;height:auto;box-sizing: initial;
+}
+
+.footer{
+	height: 120px;
+	background-color: #23282d;
+	margin-bottom:0;
+}
+.site-info{
+	padding-top:2rem;
+	text-align:center;
+}
+
+
+@media (min-width: 987px){
+.footer-blank {
+	width: 260px;
+	height: 120px;
+	float:left;
+}
+}
 
 </style>
 

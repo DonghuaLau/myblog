@@ -72,7 +72,7 @@ function huaui_scripts_styles() {
 	//wp_enqueue_script( 'huaui-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '20160302', true );
 
 	// Loads our main stylesheet.
-	wp_enqueue_style( 'huaui-style', get_stylesheet_uri(), array(), '20170208' );
+	wp_enqueue_style( 'huaui-style', get_stylesheet_uri(), array(), '20170209' );
 
 	// Loads the Internet Explorer specific stylesheet.
 	//wp_enqueue_style( 'twentyhua-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentyhua-style' ), '2016-03-18' );
@@ -133,10 +133,10 @@ function huaui_entry_meta() {
 		huaui_entry_date();
 
 	// Translators: used between list items, there is a space after the comma.
-	$categories_list = get_the_category_list( __( ', ', 'huaui' ) );
-	if ( $categories_list ) {
-		echo '<span class="categories-links">' . $categories_list . '</span>';
-	}
+	//$categories_list = get_the_category_list( __( ', ', 'huaui' ) );
+	//if ( $categories_list ) {
+	//	echo '<span class="categories-links">' . $categories_list . '</span>';
+	//}
 
 	// Translators: used between list items, there is a space after the comma.
 	$tag_list = get_the_tag_list( '', __( ', ', 'huaui' ) );
@@ -188,7 +188,6 @@ function huaui_paging_nav() {
 	if ( $wp_query->max_num_pages < 2 )
 		return;
 	?>
-	<div class="padding-top40"></div>
 	<nav class="navigation paging-navigation" role="navigation">
 		<!--<h1 class="screen-reader-text"><?php _e( '文章导航', 'huaui' ); ?></h1>-->
 		<div class="nav-links nav-xyz">
@@ -216,7 +215,6 @@ function huaui_post_nav() {
 	if ( ! $next && ! $previous )
 		return;
 	?>
-	<div class="padding-top40"></div>
 	<nav class="navigation post-navigation" role="navigation">
 		<!--<h1 class="screen-reader-text"><?php _e( 'Post navigation', 'huaui' ); ?></h1>-->
 		<div class="nav-links">

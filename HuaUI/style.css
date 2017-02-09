@@ -20,9 +20,6 @@ Use it to make something cool, have fun, and share what you've learned with othe
 	left: 0px !important;
 }
 
-.site-main{
-	margin: 1rem 2rem 1rem 2rem;
-}
 
 .text-center{
 	text-align:center;
@@ -75,10 +72,17 @@ Use it to make something cool, have fun, and share what you've learned with othe
 	.ui .pusher{
 		margin-left:260px;
 	}
+
+	.site-main{
+		margin: 1rem 2rem 1rem 2rem;
+	}
 }
 @media (max-width: 986px){
 	#widescreen-menu-left{
 		display:none;
+	}
+	.site-main{
+		margin: 1rem 1rem 1rem 1rem;
 	}
 }
 

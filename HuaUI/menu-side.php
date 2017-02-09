@@ -22,6 +22,7 @@
 			<div class="item">
 			  <div class="header">其他</div>
 			  <div class="menu">
+			  	<a class="item" href="/about">关于</a>
 			  	<a class="item" href="/wiki">我的维基</a>
 			  	<a class="item" href="http://www.pxhua.com/">祥和人生 华丽遇见</a>
 			  	<a class="item" href="http://www.csmbcfw.com/">长沙面包车出租搬家</a>
@@ -54,6 +55,6 @@
 			<div class="item">
 			  <div class="header">热门文章</div>
 			  <div class="menu">
-			   <?php echo my_get_recent_posts(8); ?> 
+			   <?php echo get_popular_posts(8); ?> 
 			  </div>
 			</div>
