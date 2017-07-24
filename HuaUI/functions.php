@@ -1,5 +1,6 @@
 <?php
 
+define( 'HUA_UI_VERSION', '1.0.0' );
 define("LOG_FILE", getcwd()."/var/log/ds.log");
 
 /**
@@ -58,6 +59,73 @@ function huaui_setup() {
 add_action( 'after_setup_theme', 'huaui_setup' );
 
 
+function huaui_init() {
+
+	// custom routing
+    huaui_routing_register_rewrites();
+    global $wp;
+    $wp->add_query_var( 'huaui_route' );
+}
+add_action( 'init', 'huaui_init', 999 );
+
+function huaui_routing_register_rewrites() {
+    add_rewrite_rule( '^' . get_huaui_routing_url_prefix() . '/?$','index.php?huaui_route=/','top' );
+    add_rewrite_rule( '^' . get_huaui_routing_url_prefix() . '(.*)?','index.php?huaui_route=$matches[1]','top' );
+}
+
+/**
+ * Get the URL prefix for any API resource.
+ *
+ * @return string Prefix.
+ */
+function get_huaui_routing_url_prefix() {
+    return apply_filters( 'huaui_routing_url_prefix', 'extra' );
+}
+
+function huaui_routing_maybe_flush_rewrites() {
+    $version = get_option( 'huaui_routing_plugin_version', null );
+
+    if ( empty( $version ) ||  $version !== HUA_UI_VERSION) {
+        flush_rewrite_rules();
+        update_option( 'huaui_routing_plugin_version', HUA_UI_VERSION);
+    }
+
+}
+add_action( 'init', 'huaui_routing_maybe_flush_rewrites', 999 );
+
+function huaui_routing_loaded() {
+
+	global $wp;
+	dslog('DEBUG', "huaui_routing_loaded, " . var_dump_string($wp->query_vars['huaui_route']));
+	if ( !empty( $GLOBALS['wp']->query_vars['huaui_route'] ) ){
+		require_once('routing.php');
+		$route = strtolower($GLOBALS['wp']->query_vars['huaui_route']);
+        huaui_routing_load($route);
+        die();
+	}
+
+	return;
+}
+add_action( 'template_redirect', 'huaui_routing_loaded', -100 );
+
+
+/*
+ *  Change login logo
+ */
+function huaui_login_logo() { 
+	$img = get_template_directory_uri() . '/images/avatar-160-1.1.jpg';
+    echo "<style type=\"text/css\">
+        .login h1 a {
+            background-image: url($img) !important;
+            margin-bottom: 30px;
+			border-radius: 50%
+        }
+    </style>";
+}
+add_action( 'login_enqueue_scripts', 'huaui_login_logo' );
+
+
+
 /**
  * Enqueue scripts and styles for the front end.
  *
@@ -72,7 +140,7 @@ function huaui_scripts_styles() {
 	//wp_enqueue_script( 'huaui-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '20160302', true );
 
 	// Loads our main stylesheet.
-	wp_enqueue_style( 'huaui-style', get_stylesheet_uri(), array(), '20170209' );
+	wp_enqueue_style( 'huaui-style', get_stylesheet_uri(), array(), '20170212' );
 
 	// Loads the Internet Explorer specific stylesheet.
 	//wp_enqueue_style( 'twentyhua-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentyhua-style' ), '2016-03-18' );
@@ -111,6 +179,13 @@ function huaui_site_title($display = true)
 	}else if(is_single()){
 		$post_title = get_the_title	();
 		$title = "$post_title | $site_title";
+	}else if(is_category()){
+		$cat_title = single_cat_title();
+		$title = "$cat_title | $site_title";
+	}else if(is_search()){
+		//$cat_title = single_cat_title();
+		$search_query = get_search_query();
+		$title = "搜索\"$search_query\"的结果 | $site_title";
 	}else{
 		return wp_title( '|', $display, 'right' );
 	}
@@ -130,7 +205,7 @@ function huaui_entry_meta() {
 		echo '<span class="featured-post">' . esc_html__( 'Sticky', 'huaui' ) . '</span>';
 
 	if ( ! has_post_format( 'link' ) && 'post' == get_post_type() )
-		huaui_entry_date();
+		huaui_simple_entry_date();
 
 	// Translators: used between list items, there is a space after the comma.
 	//$categories_list = get_the_category_list( __( ', ', 'huaui' ) );
@@ -146,7 +221,8 @@ function huaui_entry_meta() {
 
 	// Post author
 	if ( 'post' == get_post_type() ) {
-		printf( '<span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s" rel="author">%3$s</a></span>',
+		//printf( '<span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s" rel="author">%3$s</a></span>',
+		printf( '<span class="author vcard">%3$s</span>',
 			esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
 			esc_attr( sprintf( __( 'View all posts by %s', 'huaui' ), get_the_author() ) ),
 			get_the_author()
@@ -165,6 +241,27 @@ function huaui_entry_date( $echo = true ) {
 
 
 	$date = sprintf( '<span class="date"><a href="%1$s" title="%2$s" rel="bookmark"><time class="entry-date" datetime="%3$s">%4$s</time></a></span>',
+		esc_url( get_permalink() ),
+		esc_attr( sprintf( __( 'Permalink to %s', 'huaui' ), the_title_attribute( 'echo=0' ) ) ),
+		esc_attr( get_the_date( 'c' ) ),
+		esc_html( sprintf( $format_prefix, get_post_format_string( get_post_format() ), get_the_date('Y/m/d') ) )
+	);
+
+
+	if ( $echo )
+		echo $date;
+
+	return $date;
+}
+
+function huaui_simple_entry_date( $echo = true ) {
+	if ( has_post_format( array( 'chat', 'status' ) ) )
+		$format_prefix = _x( '%1$s on %2$s', '1: post format name. 2: date', 'huaui' );
+	else
+		$format_prefix = '%2$s';
+
+
+	$date = sprintf( '<span class="date"><time class="entry-date" datetime="%3$s">%4$s</time></span>',
 		esc_url( get_permalink() ),
 		esc_attr( sprintf( __( 'Permalink to %s', 'huaui' ), the_title_attribute( 'echo=0' ) ) ),
 		esc_attr( get_the_date( 'c' ) ),

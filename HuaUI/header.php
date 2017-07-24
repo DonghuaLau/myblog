@@ -36,7 +36,7 @@
 
 
 	<!-- not working in wp_enqueue_scripts, don't know why? -->
-	<link rel='stylesheet' href='/wp-content/themes/HuaUI/semantic-ui/semantic.min.css?ver=001' type='text/css' />
+	<link rel='stylesheet' href='/wp-content/themes/HuaUI/semantic-ui/semantic.min.css?ver=002' type='text/css' />
 	<script type='text/javascript' src='/wp-content/themes/HuaUI/semantic-ui/semantic.min.js?ver=001'></script>
 
 <!-- move to style.css later -->
@@ -47,6 +47,9 @@
     font-family: "Microsoft YaHei","微软雅黑";
 }
 
+.entry-meta{
+	color:#888;
+}
 .entry-title, .entry-meta{
 	text-align: left;
 }
@@ -76,8 +79,15 @@ min-height:100%;height:auto;box-sizing: initial;
 	margin-bottom:0;
 }
 .site-info{
-	padding-top:2rem;
+	padding-top:3.2rem;
 	text-align:center;
+}
+
+.comment-form input{
+	height:20px;
+}
+.comment-form #submit{
+	height:34px;
 }
 
 
@@ -86,6 +96,9 @@ min-height:100%;height:auto;box-sizing: initial;
 	width: 260px;
 	height: 120px;
 	float:left;
+}
+#float-menu{
+	display:none !important;
 }
 }
 

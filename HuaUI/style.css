@@ -2,7 +2,7 @@
 Theme Name: Hua UI 
 Theme URI: https://wordpress.org/themes/huaui/
 Author: Donghua Lau
-Author URI: http://liudonghua.net
+Author URI: https://liudonghua.net
 Description: Theme for personal blog.
 Version: 1.0
 License: GNU General Public License v2 or later
@@ -37,14 +37,15 @@ Use it to make something cool, have fun, and share what you've learned with othe
 
 .entry-title{
 	text-align: center;
-	margin: 1rem 0 2rem 0;
+	margin: 1rem 0 1rem 0;
 }
 .entry-meta{
 	text-align: center;
 	margin: 1rem 0 1rem 0;
 }
 .entry-meta span{
-	margin-left: 0.5rem;
+	margin-right: 0.5rem;
+    font-size: 0.6rem;
 }
 .badge{
 	float:right;
@@ -92,7 +93,8 @@ Use it to make something cool, have fun, and share what you've learned with othe
 .comment-form-url label,
 .comment-form-comment label{
 	width: 70px;
-	text-align:left;
+	text-align:right;
+	display: inline-block;
 }
 .form-allowed-tags{
 	display:none;

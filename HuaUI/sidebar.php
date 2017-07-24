@@ -14,12 +14,12 @@
 
 	<div class="pusher" >
 	
-	  <div class="ui teal top inverted menu" id="menu-top" style="border-radius:0;">
+	  <div class="ui teal top inverted menu" id="menu-top" style="border-radius:0; margin:0;">
 	    <a class="item" id="menu-open">
 	      <i class="sidebar icon"></i>
 	    </a>
 	    <div class="item">
-	      <?php echo get_bloginfo('name'); ?>
+	      <a href="/" style="line-height: 1.1;"><?php echo get_bloginfo('name'); ?></a>
 	    </div>
 	  </div>
 	
